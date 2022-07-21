@@ -59,7 +59,22 @@ dat %>%
 
 ## Random Sampling *With* Prior Stratification
 
-Stratified sampling ensures better balance of key features:
+There are 16 unique combinations of the 4 features in this dataset:
+
+```{r}
+
+set.seed(18)
+
+dat %>%
+  count(feature1, feature2, feature3, feature4) %>%
+  gt() %>%
+  gt::tab_header(title = md("Unique Combinations of Features")) %>%
+  gt::as_raw_html()
+
+
+```
+
+Stratified sampling (sampling within feature-combination groups) ensures better balance of key features:
 
 ```{r}
 
