@@ -20,7 +20,8 @@ library(gt)
 dat <- read_csv("./data/dummy_data_survey_sample.csv")
 
 dat %>%
-  gt_preview()
+  gt_preview() %>%
+  gt::as_raw_html()
 
 
 ```
@@ -33,7 +34,8 @@ dat %>%
   summarise_at(.vars = vars(feature1, feature2, feature3, feature4), .funs = ~ sum(.x)/length(.x)) %>%
   gt() %>%
   gt::fmt_percent(columns = everything()) %>%
-  gt::tab_header(title = gt::md("Percent of *Total* with Feature Detected"))
+  gt::tab_header(title = gt::md("Percent of *Total* with Feature Detected")) %>%
+  gt::as_raw_html()
 
 
 ```
@@ -49,7 +51,8 @@ dat %>%
   summarise_at(.vars = vars(feature1, feature2, feature3, feature4), .funs = ~ sum(.x)/length(.x)) %>%
   gt() %>%
   gt::fmt_percent(columns = everything()) %>%
-  gt::tab_header(title = md("Percent of *Sample* with Feature Detected"))
+  gt::tab_header(title = md("Percent of *Sample* with Feature Detected")) %>%
+  gt::as_raw_html()
 
 
 ```
@@ -71,7 +74,8 @@ dat %>%
   summarise_at(.vars = vars(feature1, feature2, feature3, feature4), .funs = ~ sum(.x)/length(.x)) %>%
   gt() %>%
   gt::fmt_percent(columns = everything()) %>%
-  gt::tab_header(title = md("Percent of *Stratified Sample* with Feature Detected"))
+  gt::tab_header(title = md("Percent of *Stratified Sample* with Feature Detected")) %>%
+  gt::as_raw_html()
 
 
 ```
