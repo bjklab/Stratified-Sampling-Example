@@ -1,0 +1,81 @@
+---
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, error = FALSE)
+```
+
+# Stratified Sampling for Survey Site Selection
+
+## Random Sampling *Without* Prior Stratification
+
+Random sampling without prior stratification may produce a sample with imbalances of key features. Here data on 314 sites, which have 4 features of interest:
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(gt)
+
+dat <- read_csv("./data/dummy_data_survey_sample.csv")
+
+dat %>%
+  gt_preview()
+
+
+```
+
+If a small sample must be taken (for example, due to prohibitive study costs), a random sampling process can still leave unbalanced features. Here are the features in the whole population:
+
+```{r}
+
+dat %>%
+  summarise_at(.vars = vars(feature1, feature2, feature3, feature4), .funs = ~ sum(.x)/length(.x)) %>%
+  gt() %>%
+  gt::fmt_percent(columns = everything()) %>%
+  gt::tab_header(title = gt::md("Percent of *Total* with Feature Detected"))
+
+
+```
+
+Here are the features in the small random sample:
+
+```{r}
+
+set.seed(18)
+
+dat %>%
+  slice_sample(n = 14) %>%
+  summarise_at(.vars = vars(feature1, feature2, feature3, feature4), .funs = ~ sum(.x)/length(.x)) %>%
+  gt() %>%
+  gt::fmt_percent(columns = everything()) %>%
+  gt::tab_header(title = md("Percent of *Sample* with Feature Detected"))
+
+
+```
+
+## Random Sampling *With* Prior Stratification
+
+Stratified sampling ensures better balance of key features:
+
+```{r}
+
+set.seed(18)
+
+dat %>%
+  group_by(feature1, feature2, feature3, feature4) %>%
+  # note: 16 groups total, based on this feature distribution
+  slice_sample(n = 1) %>%
+  ungroup() %>%
+  slice_sample(n = 14) %>%
+  summarise_at(.vars = vars(feature1, feature2, feature3, feature4), .funs = ~ sum(.x)/length(.x)) %>%
+  gt() %>%
+  gt::fmt_percent(columns = everything()) %>%
+  gt::tab_header(title = md("Percent of *Stratified Sample* with Feature Detected"))
+
+
+```
+
+
+
+
