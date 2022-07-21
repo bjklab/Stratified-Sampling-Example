@@ -26,7 +26,7 @@ dat %>%
 
 ```
 
-If a small sample must be taken (for example, due to prohibitive study costs), a random sampling process can still leave unbalanced features. Here are the features in the whole population:
+If a small (n = 14) sample must be taken (for example, due to prohibitive study costs), a random sampling process can still leave unbalanced features. Here are the features in the whole population:
 
 ```{r}
 
@@ -40,7 +40,7 @@ dat %>%
 
 ```
 
-Here are the features in the small random sample:
+Here are the features in the small (n = 14) random sample:
 
 ```{r}
 
@@ -59,16 +59,15 @@ dat %>%
 
 ## Random Sampling *With* Prior Stratification
 
-There are 16 unique combinations of the 4 features in this dataset:
+There are 16 unique combinations of the 4 features in this data set:
 
 ```{r}
 
-set.seed(18)
-
 dat %>%
-  count(feature1, feature2, feature3, feature4) %>%
+  count(feature1, feature2, feature3, feature4, name = "site_count") %>%
   gt() %>%
   gt::tab_header(title = md("Unique Combinations of Features")) %>%
+  gt::opt_row_striping() %>%
   gt::as_raw_html()
 
 
